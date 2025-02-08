@@ -1,4 +1,4 @@
-package org.worm.bookhunt.model;
+package org.worm.bookhunt.user;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

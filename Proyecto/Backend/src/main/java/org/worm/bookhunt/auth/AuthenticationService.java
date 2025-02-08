@@ -1,16 +1,14 @@
-package org.worm.bookhunt.controller;
+package org.worm.bookhunt.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.worm.bookhunt.model.Role;
-import org.worm.bookhunt.model.User;
-import org.worm.bookhunt.repository.UserRepository;
-import org.worm.bookhunt.security.JwtService;
-
-import java.net.PasswordAuthentication;
+import org.worm.bookhunt.user.Role;
+import org.worm.bookhunt.user.User;
+import org.worm.bookhunt.user.UserRepository;
+import org.worm.bookhunt.config.JwtService;
 
 
 @Service

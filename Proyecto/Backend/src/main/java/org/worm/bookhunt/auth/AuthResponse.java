@@ -1,4 +1,4 @@
-package org.worm.bookhunt.model;
+package org.worm.bookhunt.auth;
 
 public class AuthResponse {
     private final String jwt;

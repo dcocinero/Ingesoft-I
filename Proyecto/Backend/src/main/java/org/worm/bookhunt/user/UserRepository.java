@@ -1,7 +1,6 @@
-package org.worm.bookhunt.repository;
+package org.worm.bookhunt.user;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.worm.bookhunt.model.User;
 
 import java.util.Optional;
 

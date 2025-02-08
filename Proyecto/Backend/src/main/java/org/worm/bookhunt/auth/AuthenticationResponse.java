@@ -1,4 +1,4 @@
-package org.worm.bookhunt.controller;
+package org.worm.bookhunt.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

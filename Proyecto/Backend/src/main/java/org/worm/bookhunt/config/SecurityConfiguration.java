@@ -1,4 +1,4 @@
-package org.worm.bookhunt.security;
+package org.worm.bookhunt.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

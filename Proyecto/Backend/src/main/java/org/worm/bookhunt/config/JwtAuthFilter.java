@@ -1,4 +1,4 @@
-package org.worm.bookhunt.security;
+package org.worm.bookhunt.config;
 
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.FilterChain;

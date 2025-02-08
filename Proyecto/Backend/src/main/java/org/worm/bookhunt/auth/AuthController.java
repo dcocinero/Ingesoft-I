@@ -1,4 +1,4 @@
-package org.worm.bookhunt.controller;
+package org.worm.bookhunt.auth;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
