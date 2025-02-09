@@ -1,6 +1,7 @@
 <div align="center">
 
-# 🛠️👩‍💻 **Ingeniería de Software 1 - 2024-2 Grupo #3** 👨‍💻🛠️  
+# 🛠️👩‍💻 **Repositorio grupal - Ingeniería de Software 1 - 2024-2 Grupo #3** 👨‍💻🛠️  
+
 
 </div>
 
