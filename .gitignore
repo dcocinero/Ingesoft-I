@@ -425,3 +425,7 @@ gradle-app.setting
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/java,intellij,visualstudiocode,react,reactnative
+
+
+# Ignore application.properties
+application.properties
