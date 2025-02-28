@@ -1,19 +1,33 @@
 package org.worm.bookhunt.club;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.worm.bookhunt.user.User;
 import org.worm.bookhunt.user.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ClubService {
     private final ClubRepository clubRepository;
     private final UserRepository userRepository;
+
+    public List<Club> getUserClubs(String userName) {
+        Optional<User> userOptional = userRepository.findByUsername(userName);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return user.getClubs().stream()
+                    .map(clubRepository::findById)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .collect(Collectors.toList());
+        } else {
+            throw new IllegalArgumentException("User not found");
+        }
+    }
 
     public void addUserToClub(String clubId, String userName) {
         Optional<Club> clubOptional = clubRepository.findById(clubId);
