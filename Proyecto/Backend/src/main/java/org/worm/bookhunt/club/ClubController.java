@@ -26,4 +26,17 @@ public class ClubController {
         clubService.addUserToClub(clubId, userId);
         return ResponseEntity.ok("User joined the club successfully");
     }
+
+    @DeleteMapping("/{clubId}/remove")
+    public ResponseEntity<String> removeUserFromClub(@PathVariable String clubId, @RequestParam String userId, HttpServletRequest request) {
+        String token = request.getHeader("Authorization").substring(7); // Remove "Bearer " prefix
+        String tokenUserId = jwtService.extractUsername(token);
+
+        if (!tokenUserId.equals(userId)) {
+            return ResponseEntity.status(403).body("User ID does not match token");
+        }
+
+        clubService.removeUserFromClub(clubId, userId);
+        return ResponseEntity.ok("User removed from the club successfully");
+    }
 }
