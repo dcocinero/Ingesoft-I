@@ -426,6 +426,5 @@ gradle-app.setting
 
 # End of https://www.toptal.com/developers/gitignore/api/java,intellij,visualstudiocode,react,reactnative
 
-
 # Ignore application.properties
 application.properties

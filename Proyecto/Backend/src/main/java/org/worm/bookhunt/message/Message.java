@@ -1,4 +1,4 @@
-package org.worm.bookhunt.Message;
+package org.worm.bookhunt.message;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
