@@ -21,6 +21,12 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
 
     public AuthenticationResponse register(RegisterRequest request) {
+        if (repository.findByUsername(request.getUsername()).isPresent()) {
+            throw new RuntimeException("Username already exists");
+        } else if (repository.findByEmail(request.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already exists");
+
+        }
         var user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())

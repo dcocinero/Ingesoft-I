@@ -34,6 +34,9 @@ public class ClubService {
         Optional<User> userOptional = userRepository.findByUsername(userName);
 
         if (clubOptional.isPresent() && userOptional.isPresent()) {
+            if (clubOptional.get().getMembers().contains(userName)) {
+                throw new IllegalArgumentException("User already in club");
+            }
             Club club = clubOptional.get();
             User user = userOptional.get();
 
@@ -54,6 +57,9 @@ public class ClubService {
         Optional<User> userOptional = userRepository.findByUsername(userName);
 
         if (clubOptional.isPresent() && userOptional.isPresent()) {
+            if (!clubOptional.get().getMembers().contains(userName)) {
+                throw new IllegalArgumentException("User not in club");
+            }
             Club club = clubOptional.get();
             User user = userOptional.get();
 
