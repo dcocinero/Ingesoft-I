@@ -36,4 +36,7 @@ public class User implements UserDetails {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
+    public String getId() {
+        return _id;
+    }
 }

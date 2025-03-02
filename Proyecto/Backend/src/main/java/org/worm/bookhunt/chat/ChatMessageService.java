@@ -1,10 +1,8 @@
 package org.worm.bookhunt.chat;
 
-import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -17,11 +15,10 @@ public class ChatMessageService {
     }
 
     public ChatMessage saveMessage(ChatMessage chatMessage) {
-        chatMessage.setCreatedAt(LocalDateTime.now());
         return chatMessageRepository.save(chatMessage);
     }
 
     public List<ChatMessage> findMessagesByClubId(String clubId, Pageable pageable) {
-        return chatMessageRepository.findClubId(clubId, pageable);
+        return chatMessageRepository.findByClubId(clubId, pageable);
     }
 }

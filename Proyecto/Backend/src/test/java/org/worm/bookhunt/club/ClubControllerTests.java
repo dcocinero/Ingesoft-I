@@ -55,9 +55,8 @@ public class ClubControllerTests {
 
     @Test
     void testJoinClub() throws Exception {
-        String token = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0dXNlcjE1NTU1NTU1NSIsImlhdCI6MTc0MDcwNzg1OCwiZXhwIj" +
-                "oxNzQwNzQzODU4fQ.QMKIpeHrEtct6mSABJeYLKeTfuWEkgYasNt1mj3jMl_aiufQq4Ydz9vRAhfnWke5";
-        String clubId = "67c0fc8b11d9dd000959316d";
+        String token = "Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0ZXN0dXNlcjE1NTU1NTU1NSIsImlhdCI6MTc0MDkzODIyNiwiZXhwIjoxNzQwOTc0MjI2fQ.eY8AgpgmBjeWwiZrVQUorXlY8eboIKnkp0GJL2GoZiPmj4oXxEOYmzB_U6IgiYz0";
+        String clubId = "67c105c5f7fe2157cb7434c0";
         String userId = "testuser155555555";
 
         mockMvc.perform(MockMvcRequestBuilders.post("/clubs/{clubId}/join", clubId)
