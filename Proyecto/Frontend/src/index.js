@@ -6,6 +6,7 @@ import Login from './Login';
 import Home from './Home';
 import ClubHome from './ClubHome';
 import Register from './Register';
+import SearchClubs from './SearchClubs'; // Import the new component
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -17,6 +18,7 @@ root.render(
         <Route path="/home" element={<Home />} />
         <Route path="/club/:clubId/home" element={<ClubHome />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/search-clubs" element={<SearchClubs />} /> {/* Add new route */}
         <Route path="/" element={<Login />} />
       </Routes>
     </BrowserRouter>

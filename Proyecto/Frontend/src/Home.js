@@ -39,6 +39,10 @@ function Home() {
     navigate(`/club/${clubId}/home`);
   };
 
+  const handleSearchClubsClick = () => {
+    navigate('/search-clubs');
+  };
+
   return (
     <div>
       <h1>Welcome to the Home Page</h1>
@@ -54,6 +58,7 @@ function Home() {
           ))}
         </ul>
       </div>
+      <button onClick={handleSearchClubsClick}>Busqueda de nuevos clubs</button>
     </div>
   );
 }

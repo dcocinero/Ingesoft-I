@@ -15,18 +15,16 @@ public class ClubService {
     private final ClubRepository clubRepository;
     private final UserRepository userRepository;
 
+    public List<Club> getPopularClubs() {
+        List<Club> clubs = clubRepository.findAll();
+        clubs.sort((c1, c2) -> Integer.compare(c2.getMembers().size(), c1.getMembers().size()));
+        return clubs.stream().limit(5).collect(Collectors.toList());
+    }
+
     public List<Club> getUserClubs(String userName) {
-        Optional<User> userOptional = userRepository.findByUsername(userName);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            return user.getClubs().stream()
-                    .map(clubRepository::findById)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .collect(Collectors.toList());
-        } else {
-            throw new IllegalArgumentException("User not found");
-        }
+        return clubRepository.findAll().stream()
+                .filter(club -> club.getMembers().contains(userName))
+                .collect(Collectors.toList());
     }
 
     public void addUserToClub(String clubId, String userName) {
