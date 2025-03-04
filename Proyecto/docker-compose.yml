@@ -16,7 +16,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://localhost:27017/BookHunt
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/BookHunt
     depends_on:
       - mongo
 
