@@ -74,4 +74,8 @@ public class ClubService {
             throw new IllegalArgumentException("Club or User not found");
         }
     }
+
+    public Club getClubById(String club){
+        return clubRepository.findById(club).orElseThrow(() -> new IllegalArgumentException("Club not found"));
+    }
 }

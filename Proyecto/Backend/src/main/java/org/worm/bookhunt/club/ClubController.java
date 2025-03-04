@@ -14,6 +14,12 @@ public class ClubController {
     private final ClubService clubService;
     private final JwtService jwtService;
 
+    @GetMapping("/{clubId}/home")
+    public ResponseEntity<Club> getClubHome(@PathVariable String clubId) {
+        Club club = clubService.getClubById(clubId);
+        return ResponseEntity.ok(club);
+    }
+
     @PostMapping("/{clubId}/join")
     public ResponseEntity<String> joinClub(@PathVariable String clubId, @RequestParam String userId, HttpServletRequest request) {
         String token = request.getHeader("Authorization").substring(7); // Remove "Bearer " prefix

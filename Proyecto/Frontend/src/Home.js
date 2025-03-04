@@ -35,6 +35,10 @@ function Home() {
     fetchClubs();
   }, [navigate]);
 
+  const handleClubClick = (clubId) => {
+    navigate(`/club/${clubId}/home`);
+  };
+
   return (
     <div>
       <h1>Welcome to the Home Page</h1>
@@ -43,7 +47,10 @@ function Home() {
         <h2>Reading Clubs</h2>
         <ul>
           {clubs.map((club) => (
-            <li key={club.id}>{club.name}</li>
+            <li key={club.id}>
+              {club.name}
+              <button onClick={() => handleClubClick(club.id)}>Go to Club Home</button>
+            </li>
           ))}
         </ul>
       </div>

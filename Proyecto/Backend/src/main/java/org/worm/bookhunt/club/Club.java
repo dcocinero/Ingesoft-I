@@ -19,5 +19,7 @@ public class Club {
     private String id;
     private String name;
     private String description;
+    private String iconImageUrl = "/images/default-icon.png";
+    private String book;
     private Set<String> members = new HashSet<>();
 }
