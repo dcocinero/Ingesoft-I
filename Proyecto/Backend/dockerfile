@@ -3,7 +3,7 @@
 ############################
 FROM eclipse-temurin:21 AS build
 
-# Instalar herramientas necesarias (como curl y tar)
+# Instalar herramientas necesarias (curl y tar)
 RUN apt-get update && apt-get install -y curl tar && rm -rf /var/lib/apt/lists/*
 
 # Definir versión de Maven a utilizar
@@ -18,12 +18,10 @@ RUN curl -fsSL https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/bi
     && rm -f /tmp/maven.tar.gz
 
 WORKDIR /app
-# Copiar pom.xml para descargar dependencias y aprovechar la caché
-COPY pom.xml .
-RUN mvn dependency:go-offline
+# Copiar todo el proyecto para asegurarnos de que se incluyen todos los archivos necesarios
+COPY . .
 
-# Copiar el resto del código fuente y compilar la aplicación
-COPY src ./src
+# Ejecutar la compilación con Maven (asegúrate de que la compilación se realice correctamente)
 RUN mvn clean package -DskipTests
 
 ############################
@@ -31,8 +29,7 @@ RUN mvn clean package -DskipTests
 ############################
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
-# Copiar el JAR generado en la etapa de build
-COPY --from=build /app/target/*.jar app.jar
+# Copiar el JAR generado en la etapa de build (ajusta el nombre según corresponda)
+COPY --from=build /app/target/BookHunt-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
