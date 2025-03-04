@@ -16,13 +16,13 @@ import java.time.LocalDateTime;
 @ToString
 @EqualsAndHashCode
 public class ChatMessage {
-
-    @Id
-    private String id;
-    private String authorId;
-    @Indexed(unique = true)
-    private String clubId;
+    private MessageType type;
     private String content;
-    private LocalDateTime createdAt;
-    private MessageType messageType;
+    private String sender;
+
+    public enum MessageType {
+        CHAT,
+        JOIN,
+        LEAVE
+    }
 }

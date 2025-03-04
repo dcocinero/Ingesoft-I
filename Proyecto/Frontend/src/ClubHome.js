@@ -57,7 +57,7 @@ function ClubHome() {
           <p className="club-description">{club.description}</p>
     
           {/* Botón de Chat */}
-          <button className="club-button chat-button">IR AL CHAT</button>
+          <button className="club-button chat-button" onClick={() => navigate(`/clubs/${clubId}/chat`)}>IR AL CHAT</button>
     
           {/* Lista de miembros */}
           <h2 className="club-members-title">Miembros</h2>
