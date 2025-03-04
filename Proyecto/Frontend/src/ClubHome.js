@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import "./ClubCard.css";
 
 function ClubHome() {
   const { clubId } = useParams();
@@ -39,18 +40,36 @@ function ClubHome() {
   }
 
   return (
-    <div>
-      <h1>{club.name}</h1>
-      <img src={club.iconImageUrl} alt={`${club.name} icon`} />
-      <p>{club.description}</p>
-      <p>Current Book: {club.book ? club.book : 'No book selected'}</p>
-      <h2>Members</h2>
-      <ul>
-        {club.members.map((member) => (
-          <li key={member}>{member}</li>
-        ))}
-      </ul>
-    </div>
+        <div className="club-container">
+          {/* Imagen y detalles del club */}
+          <div className="club-header">
+            <img src={club.iconImageUrl} alt={`${club.name} icon`} className="club-icon" />
+            <div className="club-info">
+              <div className="club-title-box">
+                <h1 className="club-title">{club.name}</h1>
+              </div>
+              <p className="club-book-label">📖 Actualmente leyendo:</p>
+              <p className="club-book">{club.book ? club.book : "No book selected"}</p>
+            </div>
+          </div>
+    
+          {/* Descripción del club */}
+          <p className="club-description">{club.description}</p>
+    
+          {/* Botón de Chat */}
+          <button className="club-button chat-button">IR AL CHAT</button>
+    
+          {/* Lista de miembros */}
+          <h2 className="club-members-title">Miembros</h2>
+          <ul className="club-members-list">
+            {club.members.map((member) => (
+              <li key={member} className="club-member">{member}</li>
+            ))}
+          </ul>
+    
+          {/* Botón de salir */}
+          <button className="club-button leave-button">SALIR DEL CLUB</button>
+        </div>
   );
 }
 
