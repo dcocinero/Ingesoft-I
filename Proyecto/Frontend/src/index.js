@@ -21,6 +21,9 @@ root.render(
         <Route path="/search-clubs" element={<SearchClubs />} /> {/* Add new route */}
         <Route path="/" element={<Login />} />
       </Routes>
+      <footer className="footer">
+        <img src="/images/logofooter.png" alt="Logo Footer" className="footer-logo" />
+      </footer>
     </BrowserRouter>
   </React.StrictMode>
 );
