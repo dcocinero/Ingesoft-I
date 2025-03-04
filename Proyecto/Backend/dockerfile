@@ -1,5 +1,38 @@
-FROM openjdk:21-jdk-slim
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
+############################
+# Etapa 1: Construcción (Build)
+############################
+FROM eclipse-temurin:21 AS build
+
+# Instalar herramientas necesarias (como curl y tar)
+RUN apt-get update && apt-get install -y curl tar && rm -rf /var/lib/apt/lists/*
+
+# Definir versión de Maven a utilizar
+ENV MAVEN_VERSION=3.9.2
+ENV MAVEN_HOME=/usr/share/maven
+ENV PATH=${MAVEN_HOME}/bin:${PATH}
+
+# Descargar e instalar Maven
+RUN curl -fsSL https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz -o /tmp/maven.tar.gz \
+    && tar -xzvf /tmp/maven.tar.gz -C /usr/share \
+    && ln -s /usr/share/apache-maven-${MAVEN_VERSION} ${MAVEN_HOME} \
+    && rm -f /tmp/maven.tar.gz
+
+WORKDIR /app
+# Copiar pom.xml para descargar dependencias y aprovechar la caché
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+# Copiar el resto del código fuente y compilar la aplicación
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+############################
+# Etapa 2: Imagen Final
+############################
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+# Copiar el JAR generado en la etapa de build
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
