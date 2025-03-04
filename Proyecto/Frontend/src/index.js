@@ -23,6 +23,9 @@ root.render(
         <Route path="/clubs/:clubId/chat" element={<Chat />} /> {/* Add new route */}
         <Route path="/" element={<Login />} />
       </Routes>
+      <footer className="footer">
+        <img src="/images/logofooter.png" alt="Logo Footer" className="footer-logo" />
+      </footer>
     </BrowserRouter>
   </React.StrictMode>
 );

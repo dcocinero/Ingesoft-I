@@ -44,3 +44,13 @@
   color: red;
   margin-bottom: 15px;
 }
+
+.footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.footer-logo {
+  width: 50px;
+  height: auto;
+}

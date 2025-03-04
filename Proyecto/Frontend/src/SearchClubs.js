@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './SearchClubs.css';
 
 function SearchClubs() {
   const [popularClubs, setPopularClubs] = useState([]);
@@ -56,13 +57,17 @@ function SearchClubs() {
   };
 
   return (
-    <div>
-      <h1>Popular Clubs</h1>
-      <ul>
+    <div className="search-clubs-container">
+      <h1 className="search-clubs-title">Popular Clubs</h1>
+      <ul className="search-clubs-list">
         {popularClubs.map((club) => (
-          <li key={club.id}>
-            {club.name}
-            <button onClick={() => handleJoinClub(club.id)}>Entrar Club</button>
+          <li key={club.id} className="search-club-item">
+            <div className="search-club-info">
+              <h2 className="search-club-name">{club.name}</h2>
+              <p className="search-club-description">{club.description}</p>
+              <p className="search-club-book">📖 Currently reading: {club.book}</p>
+            </div>
+            <button className="join-club-button" onClick={() => handleJoinClub(club.id)}>Join Club</button>
           </li>
         ))}
       </ul>
