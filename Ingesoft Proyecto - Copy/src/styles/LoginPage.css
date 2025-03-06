@@ -1,0 +1,703 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+:root {
+  --primary-color: #8e44ad;
+  --primary-dark: #7d3c98;
+  --accent-color: #9b59b6;
+  --accent-gradient: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+  --purple-light: #d2b4de;
+  --purple-lighter: #e8daef;
+  --background-color: #f5eef8;
+  --form-bg-color: #ffffff;
+  --text-color: #333;
+  --text-light: #666;
+  --text-lighter: #999;
+  --input-border: #e6e8ec;
+  --input-bg: #f9fafc;
+  --shadow-color: rgba(142, 68, 173, 0.2);
+  --transition-speed: 0.3s;
+  --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  --box-shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  font-family: 'Poppins', sans-serif;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+body.login-page-active {
+  background-color: var(--background-color);
+  transition: background-color 0.5s ease;
+}
+
+/* Container principal mejorado */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-image: url('https://i.pinimg.com/1200x/41/1a/c8/411ac80f9356c33e2b77ceffa7e8d8c4.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Reducimos la opacidad del gradiente para ver más la imagen */
+  background: linear-gradient(135deg, 
+    rgba(141, 68, 173, 0.65) 0%, 
+    rgba(123, 58, 150, 0.2) 100%);
+  z-index: 1;
+  /* Reducimos el blur para ver mejor los detalles de la imagen */
+  backdrop-filter: blur(3px);
+}
+
+/* Caja de login - Ajuste de tamaño */
+.login-box {
+  display: flex;
+  width: 1000px;
+  min-height: 500px; /* Reducido desde 600px */
+  max-height: 600px; /* Añadido para limitar la altura */
+  background-color: var(--form-bg-color);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 2;
+  transform: translateY(50px);
+  opacity: 0;
+}
+
+.login-box.animate-in {
+  animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Lado imagen mejorado - Sin divisiones */
+.login-image-side {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary-color);
+}
+
+/* Contenedor de imagen - Sin margen inferior y sin bordes */
+.image-container {
+  height: 60%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  /* Eliminados los bordes y márgenes */
+  border: none;
+  margin: 0;
+}
+
+.login-image {
+  width: 100%;
+  height: 100%;
+  object-fit: scale-down; /* Cambiado a cover para mejor integración */
+  z-index: 1;
+  transition: transform 10s ease;
+}
+
+.login-image:hover {
+  transform: scale(1.1);
+}
+
+/* Overlay para la imagen - Eliminado el gradiente */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120%; /* Extendemos más allá del contenedor para asegurar continuidad */
+  background: transparent; /* Ahora es transparente */
+  z-index: 2;
+}
+
+/* Texto en parte inferior - Sin margen superior */
+.text-container {
+  height: 40%;
+  width: 100%;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  padding: 25px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  /* Eliminado el margen negativo que quedaba */
+  margin-top: 0;
+  /* Añadir borde superior transparente */
+  border-top: none;
+}
+
+.image-text {
+  position: relative;
+  z-index: 3;
+  color: white;
+  text-align: center;
+  width: 90%; /* Reducido para dar más margen a los lados */
+  max-width: 400px; /* Establecido un ancho máximo para control */
+  margin: 0 auto; /* Centrado horizontal */
+}
+
+/* Logo y título con mejor espaciado */
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px; /* Ajustado */
+}
+
+.logo-icon {
+  font-size: 2.2rem; /* Ligeramente reducido */
+  margin-right: 12px;
+}
+
+.image-text h2 {
+  font-size: 2.2rem; /* Ligeramente reducido */
+  font-weight: 700;
+  margin-bottom: 10px; /* Reducido */
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.image-text p {
+  font-size: 1rem;
+  font-weight: 400;
+  opacity: 0.9;
+  line-height: 1.5;
+  margin-bottom: 15px; /* Ajustado */
+}
+
+/* Lista de características con mejor espaciado */
+.features-list {
+  margin-top: 10px;
+  text-align: left;
+  width: 100%;
+  max-width: 280px;
+  margin-left: auto; /* Centrado horizontal */
+  margin-right: auto;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px; /* Reducido para mejor ajuste */
+  animation: fadeIn 0.5s ease-in forwards;
+  opacity: 0;
+  padding: 0 5px; /* Añadido padding horizontal */
+}
+
+.feature-item:nth-child(1) { animation-delay: 0.6s; }
+.feature-item:nth-child(2) { animation-delay: 0.9s; }
+.feature-item:nth-child(3) { animation-delay: 1.2s; }
+
+.feature-dot {
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+/* Shapes decorativas */
+.shapes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.shape {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.shape-1 {
+  width: 150px;
+  height: 150px;
+  top: -50px;
+  right: -50px;
+}
+
+.shape-2 {
+  width: 80px;
+  height: 80px;
+  bottom: 50px;
+  left: -20px;
+}
+
+.shape-3 {
+  width: 120px;
+  height: 120px;
+  bottom: -40px;
+  right: 30%;
+}
+
+/* Lado formulario mejorado - Ajustado */
+.login-form-side {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--form-bg-color);
+  color: var(--text-color);
+  position: relative;
+  overflow-y: auto;
+  justify-content: center; /* Centra verticalmente el contenido */
+}
+
+.form-header {
+  margin-bottom: 30px;
+  text-align: center; /* Centra los textos horizontalmente */
+}
+
+.form-header h2 {
+  color: var(--primary-color);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 15px; /* Aumentado para mejor espaciado */
+  background: var(--accent-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.subtitle {
+  color: var(--text-light);
+}
+
+/* Grupos de formulario mejorados */
+.form-group {
+  margin-bottom: 25px; /* Aumentado para mejor espaciado vertical */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--primary-color);
+  font-size: 1rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 15px 15px 15px 45px;
+  border: 1px solid var(--purple-light);
+  border-radius: 12px;
+  background-color: var(--input-bg);
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-color);
+  transition: all var(--transition-speed);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(142, 68, 173, 0.1);
+}
+
+.form-group input::placeholder {
+  color: var(--text-lighter);
+}
+
+/* Password label row */
+.password-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.forgot-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: color var(--transition-speed);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.forgot-link:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+/* Remember me checkbox */
+.remember-me {
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  user-select: none;
+}
+
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 5px;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+  border-color: var(--primary-color);
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox-container .checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Login button mejorado */
+.login-button {
+  width: 100%;
+  padding: 15px;
+  background: var(--accent-gradient);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-speed);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 10px; /* Añadido para separar del último campo */
+  margin-bottom: 25px; /* Añadido para separar del texto de registro */
+}
+
+.login-button:hover {
+  box-shadow: 0 5px 15px rgba(142, 68, 173, 0.4);
+  transform: translateY(-2px);
+}
+
+.login-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(142, 68, 173, 0.4);
+}
+
+.login-button:disabled {
+  background: linear-gradient(135deg, #b49bd1 0%, #a98bc3 100%);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Loading spinner */
+.login-button.loading {
+  color: transparent;
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 0.8s linear infinite;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -12px;
+  margin-left: -12px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 25px 0;
+  color: var(--text-lighter);
+  font-size: 0.85rem;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background-color: var(--input-border);
+}
+
+.divider span {
+  padding: 0 15px;
+}
+
+/* Social login */
+.social-login {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.social-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--input-border);
+  background-color: white;
+  cursor: pointer;
+  transition: all var(--transition-speed);
+  font-size: 1.2rem;
+}
+
+.social-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+.social-btn.google {
+  color: #DB4437;
+}
+
+.social-btn.facebook {
+  color: #4267B2;
+}
+
+.social-btn.apple {
+  color: #000000;
+}
+
+/* Sign up text */
+.signup-text {
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-light);
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+/* Mejorado el estilo del botón de registro */
+.signup-link {
+  color: var(--primary-color);
+  font-weight: 600;
+  transition: all var(--transition-speed);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 12px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  margin-left: 5px;
+  text-decoration: none;
+  background-color: var(--purple-lighter);
+}
+
+.signup-link:hover {
+  background-color: var(--purple-light);
+  transform: translateY(-2px);
+  box-shadow: 0 3px 8px rgba(142, 68, 173, 0.2);
+  text-decoration: none;
+}
+
+.signup-link:active {
+  transform: translateY(0);
+}
+
+.signup-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--primary-color);
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-out;
+}
+
+.signup-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Animaciones adicionales */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive design mejorado */
+@media (max-width: 900px) {
+  .login-box {
+    flex-direction: column;
+    height: auto;
+    width: 90%;
+    max-width: 500px;
+    min-height: auto;
+  }
+  
+  .login-image-side {
+    height: 300px; /* Aumentado para dar más espacio */
+  }
+  
+  .image-container {
+    height: 55%;
+  }
+  
+  .text-container {
+    height: 45%;
+    padding: 15px;
+  }
+  
+  .image-text {
+    width: 95%;
+  }
+  
+  .image-text h2 {
+    font-size: 1.8rem;
+  }
+  
+  .image-text p {
+    font-size: 1rem;
+  }
+  
+  .login-form-side {
+    padding: 30px;
+  }
+  
+  .features-list {
+    display: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .login-box {
+    border-radius: 12px;
+    margin: 0;
+  }
+  
+  .login-form-side {
+    padding: 25px 20px;
+  }
+  
+  .login-form-side h2 {
+    font-size: 1.5rem;
+  }
+  
+  .social-login {
+    gap: 10px;
+  }
+  
+  .social-btn {
+    width: 45px;
+    height: 45px;
+  }
+}
