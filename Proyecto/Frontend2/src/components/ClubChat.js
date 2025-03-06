@@ -23,6 +23,8 @@ function ClubChat() {
   const messagesEndRef = useRef(null);
   const [stompClient, setStompClient] = useState(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState('disconnected');
+  const stompClientRef = useRef(null);
   
   // Fetch club data
   useEffect(() => {
@@ -55,12 +57,24 @@ function ClubChat() {
 
     fetchClubData();
 
-    // Connect to WebSocket if not already connected
-    if (!stompClient) {
+    // Setup WebSocket connection
+    const setupStompClient = () => {
+      // Deactivate existing client if any
+      if (stompClientRef.current) {
+        console.log("Deactivating existing STOMP client");
+        stompClientRef.current.deactivate();
+      }
+
+      setConnectionStatus('connecting');
+      console.log("Creating new STOMP client");
+      
       const socket = new SockJS('http://localhost:8080/ws');
       const client = new Client({
         webSocketFactory: () => socket,
         onConnect: () => {
+          console.log("WebSocket connected");
+          setConnectionStatus('connected');
+          
           client.subscribe(`/topic/chat/${clubId}`, (message) => {
             if (message.body) {
               const newMessage = JSON.parse(message.body);
@@ -76,18 +90,31 @@ function ClubChat() {
         onStompError: (frame) => {
           console.error('Broker reported error: ' + frame.headers['message']);
           console.error('Additional details: ' + frame.body);
+          setConnectionStatus('error');
+        },
+        onDisconnect: () => {
+          console.log("WebSocket disconnected");
+          setConnectionStatus('disconnected');
         }
       });
+      
       client.activate();
+      stompClientRef.current = client;
       setStompClient(client);
-    }
+    };
 
+    setupStompClient();
+
+    // Cleanup function to properly close WebSocket connection
     return () => {
-      if (stompClient) {
-        stompClient.deactivate();
+      if (stompClientRef.current) {
+        console.log("Component unmounting: Deactivating STOMP client");
+        stompClientRef.current.deactivate();
+        stompClientRef.current = null;
+        setStompClient(null);
       }
     };
-  }, [clubId, navigate, stompClient]);
+  }, [clubId, navigate]);
 
   // Fetch messages
   const fetchMessages = async () => {
@@ -131,25 +158,13 @@ function ClubChat() {
     e.preventDefault();
     if (!newMessage.trim()) return;
     
-    const token = localStorage.getItem('sessionToken');
     const username = localStorage.getItem('username');
-    
-    // Optimistic UI update
-    const tempMessage = {
-      id: Date.now(),
-      sender: username,
-      content: newMessage,
-      timestamp: new Date().toISOString(),
-      pending: true
-    };
-    
-    setMessages(prevMessages => [...prevMessages, tempMessage]);
     setNewMessage('');
     
     try {
       // Send message via WebSocket
-      if (stompClient) {
-        stompClient.publish({
+      if (stompClientRef.current && connectionStatus === 'connected') {
+        stompClientRef.current.publish({
           destination: `/app/chat/${clubId}`,
           body: JSON.stringify({
             sender: username,
@@ -157,6 +172,9 @@ function ClubChat() {
             timestamp: new Date().toISOString()
           })
         });
+      } else {
+        console.error("Cannot send message: WebSocket not connected");
+        // Could display a notification to the user that they're offline
       }
     } catch (error) {
       console.error('Error during send:', error);
