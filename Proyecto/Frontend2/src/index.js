@@ -12,9 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (container) {
     const root = createRoot(container);
     root.render(
-      <React.StrictMode>
+      //<React.StrictMode>
         <App />
-      </React.StrictMode>
+      //</React.StrictMode>
     );
   } else {
     console.error("Root element not found! Make sure there's a <div id='root'></div> in your HTML file");

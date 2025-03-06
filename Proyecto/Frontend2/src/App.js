@@ -6,6 +6,7 @@ import ProfilePage from './components/ProfilePage';
 import RegisterPage from './components/RegisterPage';
 import HomeClubPage from './components/HomeClubPage';
 import MyClubsPage from './components/MyClubsPage';
+import ClubChat from './components/ClubChat';
 import './App.css';
 
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/clubs/:clubId" element={<HomeClubPage />} />
+        <Route path="/clubs/:clubId/chat" element={<ClubChat />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/myClubs" element={<MyClubsPage />} />
       </Routes>

@@ -17,12 +17,20 @@ public class HomeController {
     private final ClubService clubService;
     private final JwtService jwtService;
 
-    @GetMapping("/clubs")
+    @GetMapping("/myclubs")
     public ResponseEntity<List<Club>> getUserClubs(HttpServletRequest request) {
-        String token = request.getHeader("Authorization").substring(7); // Remove "Bearer " prefix
-        String userName = jwtService.extractUsername(token);
-
-        List<Club> clubs = clubService.getUserClubs(userName);
+        List<Club> clubs = clubService.getUserClubs(getUserName(request));
         return ResponseEntity.ok(clubs);
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<Club>> getPopularClubs(HttpServletRequest request) {
+        List<Club> clubs = clubService.getClubs(getUserName(request));
+        return ResponseEntity.ok(clubs);
+    }
+
+    private String getUserName(HttpServletRequest request) {
+        String token = request.getHeader("Authorization").substring(7); // Remove "Bearer " prefix
+        return jwtService.extractUsername(token);
     }
 }

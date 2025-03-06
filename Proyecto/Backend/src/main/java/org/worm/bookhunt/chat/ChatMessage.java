@@ -16,9 +16,12 @@ import java.time.LocalDateTime;
 @ToString
 @EqualsAndHashCode
 public class ChatMessage {
-    private MessageType type;
+    @Id
+    private String _id;
     private String content;
     private String sender;
+    private String clubId;
+    private LocalDateTime timestamp;
 
     public enum MessageType {
         CHAT,

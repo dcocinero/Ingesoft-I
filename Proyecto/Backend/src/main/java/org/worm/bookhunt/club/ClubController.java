@@ -4,6 +4,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.worm.bookhunt.chat.ChatMessage;
+import org.worm.bookhunt.chat.ChatMessageRepository;
 import org.worm.bookhunt.config.JwtService;
 
 import java.util.List;
@@ -15,38 +17,43 @@ import java.util.List;
 public class ClubController {
     private final ClubService clubService;
     private final JwtService jwtService;
+    private final ChatMessageRepository chatMessageRepository;
 
-    @GetMapping("/popular")
-    public ResponseEntity<List<Club>> getPopularClubs() {
-        List<Club> clubs = clubService.getPopularClubs();
-        return ResponseEntity.ok(clubs);
+    @GetMapping("/{clubId}/messages")
+    public List<ChatMessage> getMessages(@PathVariable String clubId) {
+        return chatMessageRepository.findByClubId(clubId);
     }
 
     @GetMapping("/{clubId}/home")
-    public ResponseEntity<Club> getClubHome(@PathVariable String clubId) {
-        Club club = clubService.getClubById(clubId);
-        return ResponseEntity.ok(club);
+    public ResponseEntity<Club> getClubHome(@PathVariable String clubId, HttpServletRequest request) {
+        try {
+            Club club = clubService.getClubById(clubId);
+            if (!clubService.isUserInClub(clubId, getUserName(request))) {
+                return ResponseEntity.status(403).body(null);
+            }
+            return ResponseEntity.ok(club);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(404).body(null);
+        }
     }
 
     @PostMapping("/{clubId}/join")
     public ResponseEntity<String> joinClub(@PathVariable String clubId, HttpServletRequest request) {
-        String token = request.getHeader("Authorization").substring(7); // Remove "Bearer " prefix
-        String tokenUserId = jwtService.extractUsername(token);
-
-        clubService.addUserToClub(clubId, tokenUserId);
+        clubService.addUserToClub(clubId, getUserName(request));
         return ResponseEntity.ok("User joined the club successfully");
     }
 
     @DeleteMapping("/{clubId}/remove")
-    public ResponseEntity<String> removeUserFromClub(@PathVariable String clubId, @RequestParam String userId, HttpServletRequest request) {
-        String token = request.getHeader("Authorization").substring(7); // Remove "Bearer " prefix
-        String tokenUserId = jwtService.extractUsername(token);
-
-        if (!tokenUserId.equals(userId)) {
-            return ResponseEntity.status(403).body("User ID does not match token");
+    public ResponseEntity<String> removeUserFromClub(@PathVariable String clubId, HttpServletRequest request) {
+        if (!clubService.isUserInClub(clubId, getUserName(request))) {
+            return ResponseEntity.status(403).body(null);
         }
-
-        clubService.removeUserFromClub(clubId, userId);
+        clubService.removeUserFromClub(clubId, getUserName(request));
         return ResponseEntity.ok("User removed from the club successfully");
+    }
+
+    private String getUserName(HttpServletRequest request) {
+        String token = request.getHeader("Authorization").substring(7); // Remove "Bearer " prefix
+        return jwtService.extractUsername(token);
     }
 }

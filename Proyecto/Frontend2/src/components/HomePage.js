@@ -11,85 +11,12 @@ import {
   FaBookmark,
 } from 'react-icons/fa';
 
-// Datos de muestra para los clubes de lectura con URLs de imágenes personalizadas
-const sampleClubs = [
-  {
-    id: 1,
-    name: "Club de Lectura Clásico",
-    description: "Un club para amantes de la literatura clásica.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/3389/3389081.png",
-    book: "Don Quijote de la Mancha"
-  },
-  {
-    id: 2,
-    name: "Club de Ciencia Ficción",
-    description: "Exploramos mundos futuristas y realidades alternativas.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/2590/2590225.png",
-    book: "Dune"
-  },
-  {
-    id: 3,
-    name: "Club de Misterio",
-    description: "Desciframos enigmas y disfrutamos de relatos de intriga.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/2421/2421391.png",
-    book: "Sherlock Holmes: Estudio en escarlata"
-  },
-  {
-    id: 4,
-    name: "Club de Fantasía",
-    description: "Un espacio para los fans de lo mágico y lo épico.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/5229/5229377.png",
-    book: "El Señor de los Anillos"
-  },
-  {
-    id: 5,
-    name: "Club de Historia",
-    description: "Analizamos eventos históricos y sus repercusiones.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/2784/2784481.png",
-    book: "Sapiens: De animales a dioses"
-  },
-  {
-    id: 6,
-    name: "Club de Poesía",
-    description: "Disfrutamos y compartimos versos que conmueven.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/3330/3330314.png",
-    book: "Veinte poemas de amor y una canción desesperada"
-  },
-  {
-    id: 7,
-    name: "Club de Novela Negra",
-    description: "Discutimos crímenes, detectives y misterios urbanos.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/2622/2622321.png",
-    book: "El halcón maltés"
-  },
-  {
-    id: 8,
-    name: "Club de Literatura Contemporánea",
-    description: "Exploramos obras modernas y su impacto en la sociedad.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/3389/3389081.png",
-    book: "La sombra del viento"
-  },
-  {
-    id: 9,
-    name: "Club de Ensayos",
-    description: "Reflexionamos sobre ideas y pensamientos a través de ensayos.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/3068/3068327.png",
-    book: "Meditaciones"
-  },
-  {
-    id: 10,
-    name: "Club de Aventura",
-    description: "Para los amantes de la adrenalina y la exploración.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/2826/2826187.png",
-    book: "La isla del tesoro"
-  }
-];
-
 function HomePage() {
   const navigate = useNavigate(); // Hook para la navegación
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [showNotification, setShowNotification] = useState(false);
+  const [clubs, setClubs] = useState([]);
   const clubsPerPage = 3;
 
   // Función para navegar a la página del club
@@ -97,34 +24,38 @@ function HomePage() {
     navigate(`/clubs/${clubId}`);
   };
 
-  // Nuevo efecto para simular carga de datos
+  // Nuevo efecto para cargar datos de clubes
   useEffect(() => {
-    // Simular carga de datos
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-    
-    return () => clearTimeout(timer);
-  }, []);
+    const fetchClubs = async () => {
+      const token = localStorage.getItem('sessionToken');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
 
-  // Nuevo efecto para mostrar una notificación después de cargar
-  useEffect(() => {
-    if (!isLoading) {
-      const timer = setTimeout(() => {
-        setShowNotification(true);
-        
-        // Ocultar después de 5 segundos
-        const hideTimer = setTimeout(() => {
-          setShowNotification(false);
-        }, 5000);
-        
-        return () => clearTimeout(hideTimer);
-      }, 2000);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [isLoading]);
-  
+      try {
+        const response = await fetch('http://localhost:8080/home/list', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setClubs(data || []); // Asegúrate de que los datos se asignen correctamente
+        } else {
+          navigate('/login');
+        }
+      } catch (error) {
+        console.error('Error fetching clubs:', error);
+        navigate('/login');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchClubs();
+  }, [navigate]);
+
   // Funciones para navegar entre páginas
   const nextPage = () => {
     if (currentPage < totalPages) {
@@ -155,17 +86,49 @@ function HomePage() {
     return pages;
   };
 
-  // Simulamos un usuario conectado
-  const userName = "Ana Martínez";
+  // Obtener el usuario del localStorage
+  const userName = localStorage.getItem('username') || "Usuario Correcto";
 
   // Ya no filtramos clubes por búsqueda, simplemente usamos todos los clubes
-  const filteredClubs = sampleClubs;
+  const filteredClubs = clubs;
     
   // Recalcular paginación
   const totalPages = Math.ceil(filteredClubs.length / clubsPerPage);
   const indexOfLastClub = currentPage * clubsPerPage;
   const indexOfFirstClub = indexOfLastClub - clubsPerPage;
   const currentClubs = filteredClubs.slice(indexOfFirstClub, indexOfLastClub);
+
+  // Función para unirse al club
+  const joinClub = async (clubId) => {
+    const token = localStorage.getItem('sessionToken');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:8080/clubs/${clubId}/join`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        setShowNotification(true);
+        setTimeout(() => setShowNotification(false), 5000);
+        navigate(`/clubs/${clubId}`);
+      } else {
+        setShowNotification(true);
+        setTimeout(() => setShowNotification(false), 5000);
+      }
+    } catch (error) {
+      console.error('Error joining club:', error);
+      setShowNotification(true);
+      setTimeout(() => setShowNotification(false), 5000);
+    }
+  };
 
   return (
     <div className="home-container">
@@ -190,7 +153,7 @@ function HomePage() {
       {showNotification && (
         <div className="notification-toast">
           <FaBell className="notification-icon" />
-          <span>¡Bienvenido a BookHunt! Descubre nuevos clubes de lectura.</span>
+          <span>Error al entrar al club</span>
           <button 
             className="close-notification" 
             onClick={() => setShowNotification(false)}
@@ -275,10 +238,10 @@ function HomePage() {
                     className="join-button"
                     onClick={(e) => {
                       e.stopPropagation(); // Evita que el clic se propague a la tarjeta
-                      navigateToClub(club.id);
+                      joinClub(club.id);
                     }}
                   >
-                    <span>Ver detalles</span>
+                    <span>Únete</span>
                     <span className="join-icon">→</span>
                   </button>
                 </div>

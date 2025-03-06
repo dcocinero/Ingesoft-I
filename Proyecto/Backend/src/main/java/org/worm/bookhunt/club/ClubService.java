@@ -15,10 +15,10 @@ public class ClubService {
     private final ClubRepository clubRepository;
     private final UserRepository userRepository;
 
-    public List<Club> getPopularClubs() {
-        List<Club> clubs = clubRepository.findAll();
-        clubs.sort((c1, c2) -> Integer.compare(c2.getMembers().size(), c1.getMembers().size()));
-        return clubs.stream().limit(5).collect(Collectors.toList());
+    public List<Club> getClubs(String userName) {
+        return clubRepository.findAll().stream()
+                .filter(club -> !club.getMembers().contains(userName))
+                .collect(Collectors.toList());
     }
 
     public List<Club> getUserClubs(String userName) {
@@ -74,6 +74,15 @@ public class ClubService {
     }
 
     public Club getClubById(String club){
-        return clubRepository.findById(club).orElseThrow(() -> new IllegalArgumentException("Club not found"));
+        try {
+            return clubRepository.findById(club).orElseThrow();
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Club not found");
+        }
+    }
+
+    public boolean isUserInClub(String clubId, String userName) {
+        Optional<Club> clubOptional = clubRepository.findById(clubId);
+        return clubOptional.map(club -> club.getMembers().contains(userName)).orElse(false);
     }
 }

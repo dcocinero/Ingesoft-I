@@ -14,69 +14,12 @@ import {
   FaCalendarAlt
 } from 'react-icons/fa';
 
-// Datos de muestra para los clubes a los que pertenece el usuario
-const userClubs = [
-  {
-    id: 1,
-    name: "Club de Lectura Clásico",
-    description: "Un club para amantes de la literatura clásica.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/3389/3389081.png",
-    book: "Don Quijote de la Mancha",
-    nextMeeting: "12 de marzo, 18:00h",
-    progress: 65
-  },
-  {
-    id: 3,
-    name: "Club de Misterio",
-    description: "Desciframos enigmas y disfrutamos de relatos de intriga.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/2421/2421391.png",
-    book: "Sherlock Holmes: Estudio en escarlata",
-    nextMeeting: "15 de marzo, 19:30h",
-    progress: 80
-  },
-  {
-    id: 4,
-    name: "Club de Fantasía",
-    description: "Un espacio para los fans de lo mágico y lo épico.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/5229/5229377.png",
-    book: "El Señor de los Anillos",
-    nextMeeting: "10 de marzo, 20:00h",
-    progress: 45
-  },
-  {
-    id: 7,
-    name: "Club de Novela Negra",
-    description: "Discutimos crímenes, detectives y misterios urbanos.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/2622/2622321.png",
-    book: "El halcón maltés",
-    nextMeeting: "18 de marzo, 17:00h",
-    progress: 30
-  },
-  {
-    id: 10,
-    name: "Club de Aventura",
-    description: "Para los amantes de la adrenalina y la exploración.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/2826/2826187.png",
-    book: "La isla del tesoro",
-    nextMeeting: "20 de marzo, 18:30h",
-    progress: 90
-  },
-  {
-    id: 6,
-    name: "Club de Poesía",
-    description: "Disfrutamos y compartimos versos que conmueven.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/3330/3330314.png",
-    book: "Veinte poemas de amor y una canción desesperada",
-    nextMeeting: "14 de marzo, 19:00h",
-    progress: 75
-  }
-];
-
 function MyClubsPage() {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [showNotification, setShowNotification] = useState(false);
+  const [userClubs, setUserClubs] = useState([]);
   const clubsPerPage = 4; // Mostramos 4 clubes por página (en lugar de 3)
 
   // Función para navegar a la página del club
@@ -84,14 +27,29 @@ function MyClubsPage() {
     navigate(`/clubs/${clubId}`);
   };
 
-  // Efecto para simular carga de datos
+  // Efecto para obtener los datos de los clubes
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-    
-    return () => clearTimeout(timer);
-  }, []);
+    const token = localStorage.getItem('sessionToken'); // Obtener el token del almacenamiento local
+    fetch('http://localhost:8080/home/myclubs', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        setUserClubs(data);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching clubs:', error);
+        navigate('/login');
+      });
+  }, [navigate]);
 
   // Efecto para mostrar una notificación después de cargar
   useEffect(() => {
@@ -141,8 +99,8 @@ function MyClubsPage() {
     return pages;
   };
 
-  // Simulamos un usuario conectado
-  const userName = "Ana Martínez";
+  // Obtener el usuario conectado del almacenamiento local
+  const userName = localStorage.getItem('username');
 
   // Filtrar los clubes si fuera necesario (aquí usamos todos)
   const filteredClubs = userClubs;
