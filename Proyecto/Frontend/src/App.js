@@ -1,34 +1,29 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import LoginPage from './components/LoginPage';
+import HomePage from './components/HomePage';
+import ProfilePage from './components/ProfilePage';
+import RegisterPage from './components/RegisterPage';
+import HomeClubPage from './components/HomeClubPage';
+import MyClubsPage from './components/MyClubsPage';
+import ClubChat from './components/ClubChat';
 import './App.css';
-import HomePage from './pages/home';
-import IndexPage from './pages/index';
-import SearchPage from './pages/search';
-import ClubHomePage from './pages/clubhome';
-import LoginPage from './pages/login';
-import RegisterPage from './pages/register';
-import SearchClubsPage from './pages/searchclubs';
+
 
 function App() {
   return (
-    <div className="App">
-      <Router>
-        <div className="App-content">
-          <Routes>
-            <Route path="/" element={<IndexPage />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/search" element={<SearchPage />} />
-            <Route path="/clubhome" element={<ClubHomePage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/searchclubs" element={<SearchClubsPage />} />
-          </Routes>
-        </div>
-        <footer className="footer">
-          <img src="/images/logofooter.png" alt="Logo Footer" className="footer-logo" />
-        </footer>
-      </Router>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/clubs/:clubId" element={<HomeClubPage />} />
+        <Route path="/clubs/:clubId/chat" element={<ClubChat />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/myClubs" element={<MyClubsPage />} />
+      </Routes>
+    </Router>
   );
 }
 
