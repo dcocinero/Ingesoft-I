@@ -1,0 +1,85 @@
+/* Estilos adicionales para la página de Mis Clubes */
+
+/* Ajustar la cuadrícula de clubes para mostrar 2 clubes por fila */
+.my-clubs-grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+/* Estilos para las tarjetas de club en la página "Mis Clubes" */
+.my-club-card {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-color);
+  padding-bottom: 0;
+}
+
+.my-club-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Indicador de progreso de lectura */
+.club-progress {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.progress-label {
+  display: block;
+  color: var(--text-light);
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--gray-light);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--gradient-primary);
+  border-radius: 4px;
+  transition: width 0.5s ease-out;
+}
+
+.progress-percentage {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+  display: block;
+  text-align: right;
+}
+
+/* Información de la próxima reunión */
+.next-meeting {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(142, 68, 173, 0.1);
+  padding: 0.8rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+}
+
+.meeting-icon {
+  color: var(--primary-color);
+}
+
+/* Responsive para diferentes tamaños de pantalla */
+@media (max-width: 992px) {
+  .my-clubs-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .my-clubs-grid {
+    grid-template-columns: 1fr;
+  }
+}

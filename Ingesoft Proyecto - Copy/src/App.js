@@ -5,6 +5,7 @@ import HomePage from './components/HomePage';
 import ProfilePage from './components/ProfilePage';
 import RegisterPage from './components/RegisterPage';
 import HomeClubPage from './components/HomeClubPage';
+import MyClubsPage from './components/MyClubsPage';
 import './App.css';
 
 
@@ -18,6 +19,7 @@ function App() {
         <Route path="/home" element={<HomePage />} />
         <Route path="/clubs/:clubId" element={<HomeClubPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/myClubs" element={<MyClubsPage />} />
       </Routes>
     </Router>
   );

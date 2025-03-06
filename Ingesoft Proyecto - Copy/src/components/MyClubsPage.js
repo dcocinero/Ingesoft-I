@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importación de useNavigate
-import '../styles/HomePage.css';
+import { useNavigate } from 'react-router-dom';
+import '../styles/HomePage.css'; // Reutilizamos los estilos de HomePage
+import '../styles/MyClubsPage.css';
 import { 
   FaBook, 
   FaChevronLeft, 
@@ -9,97 +10,82 @@ import {
   FaSearch,
   FaBell,
   FaBookmark,
+  FaUsers,
+  FaCalendarAlt
 } from 'react-icons/fa';
 
-// Datos de muestra para los clubes de lectura con URLs de imágenes personalizadas
-const sampleClubs = [
+// Datos de muestra para los clubes a los que pertenece el usuario
+const userClubs = [
   {
     id: 1,
     name: "Club de Lectura Clásico",
     description: "Un club para amantes de la literatura clásica.",
     iconImageUrl: "https://cdn-icons-png.flaticon.com/512/3389/3389081.png",
-    book: "Don Quijote de la Mancha"
-  },
-  {
-    id: 2,
-    name: "Club de Ciencia Ficción",
-    description: "Exploramos mundos futuristas y realidades alternativas.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/2590/2590225.png",
-    book: "Dune"
+    book: "Don Quijote de la Mancha",
+    nextMeeting: "12 de marzo, 18:00h",
+    progress: 65
   },
   {
     id: 3,
     name: "Club de Misterio",
     description: "Desciframos enigmas y disfrutamos de relatos de intriga.",
     iconImageUrl: "https://cdn-icons-png.flaticon.com/512/2421/2421391.png",
-    book: "Sherlock Holmes: Estudio en escarlata"
+    book: "Sherlock Holmes: Estudio en escarlata",
+    nextMeeting: "15 de marzo, 19:30h",
+    progress: 80
   },
   {
     id: 4,
     name: "Club de Fantasía",
     description: "Un espacio para los fans de lo mágico y lo épico.",
     iconImageUrl: "https://cdn-icons-png.flaticon.com/512/5229/5229377.png",
-    book: "El Señor de los Anillos"
-  },
-  {
-    id: 5,
-    name: "Club de Historia",
-    description: "Analizamos eventos históricos y sus repercusiones.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/2784/2784481.png",
-    book: "Sapiens: De animales a dioses"
-  },
-  {
-    id: 6,
-    name: "Club de Poesía",
-    description: "Disfrutamos y compartimos versos que conmueven.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/3330/3330314.png",
-    book: "Veinte poemas de amor y una canción desesperada"
+    book: "El Señor de los Anillos",
+    nextMeeting: "10 de marzo, 20:00h",
+    progress: 45
   },
   {
     id: 7,
     name: "Club de Novela Negra",
     description: "Discutimos crímenes, detectives y misterios urbanos.",
     iconImageUrl: "https://cdn-icons-png.flaticon.com/512/2622/2622321.png",
-    book: "El halcón maltés"
-  },
-  {
-    id: 8,
-    name: "Club de Literatura Contemporánea",
-    description: "Exploramos obras modernas y su impacto en la sociedad.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/3389/3389081.png",
-    book: "La sombra del viento"
-  },
-  {
-    id: 9,
-    name: "Club de Ensayos",
-    description: "Reflexionamos sobre ideas y pensamientos a través de ensayos.",
-    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/3068/3068327.png",
-    book: "Meditaciones"
+    book: "El halcón maltés",
+    nextMeeting: "18 de marzo, 17:00h",
+    progress: 30
   },
   {
     id: 10,
     name: "Club de Aventura",
     description: "Para los amantes de la adrenalina y la exploración.",
     iconImageUrl: "https://cdn-icons-png.flaticon.com/512/2826/2826187.png",
-    book: "La isla del tesoro"
+    book: "La isla del tesoro",
+    nextMeeting: "20 de marzo, 18:30h",
+    progress: 90
+  },
+  {
+    id: 6,
+    name: "Club de Poesía",
+    description: "Disfrutamos y compartimos versos que conmueven.",
+    iconImageUrl: "https://cdn-icons-png.flaticon.com/512/3330/3330314.png",
+    book: "Veinte poemas de amor y una canción desesperada",
+    nextMeeting: "14 de marzo, 19:00h",
+    progress: 75
   }
 ];
 
-function HomePage() {
-  const navigate = useNavigate(); // Hook para la navegación
+function MyClubsPage() {
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [showNotification, setShowNotification] = useState(false);
-  const clubsPerPage = 3;
+  const clubsPerPage = 4; // Mostramos 4 clubes por página (en lugar de 3)
 
   // Función para navegar a la página del club
   const navigateToClub = (clubId) => {
     navigate(`/clubs/${clubId}`);
   };
 
-  // Nuevo efecto para simular carga de datos
+  // Efecto para simular carga de datos
   useEffect(() => {
-    // Simular carga de datos
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1500);
@@ -107,7 +93,7 @@ function HomePage() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Nuevo efecto para mostrar una notificación después de cargar
+  // Efecto para mostrar una notificación después de cargar
   useEffect(() => {
     if (!isLoading) {
       const timer = setTimeout(() => {
@@ -158,14 +144,17 @@ function HomePage() {
   // Simulamos un usuario conectado
   const userName = "Ana Martínez";
 
-  // Ya no filtramos clubes por búsqueda, simplemente usamos todos los clubes
-  const filteredClubs = sampleClubs;
+  // Filtrar los clubes si fuera necesario (aquí usamos todos)
+  const filteredClubs = userClubs;
     
   // Recalcular paginación
   const totalPages = Math.ceil(filteredClubs.length / clubsPerPage);
   const indexOfLastClub = currentPage * clubsPerPage;
   const indexOfFirstClub = indexOfLastClub - clubsPerPage;
   const currentClubs = filteredClubs.slice(indexOfFirstClub, indexOfLastClub);
+
+  // Calculamos cuántos clubes poner por fila (2 filas de 2 clubes cada una)
+  const clubsPerRow = 2;
 
   return (
     <div className="home-container">
@@ -190,7 +179,7 @@ function HomePage() {
       {showNotification && (
         <div className="notification-toast">
           <FaBell className="notification-icon" />
-          <span>¡Bienvenido a BookHunt! Descubre nuevos clubes de lectura.</span>
+          <span>¡Bienvenido a tus clubes de lectura! Tienes {userClubs.length} clubes activos.</span>
           <button 
             className="close-notification" 
             onClick={() => setShowNotification(false)}
@@ -208,8 +197,8 @@ function HomePage() {
           </div>
           <nav className="main-nav">
             <ul>
-              <li><button type="button" className="nav-button active">Inicio</button></li>
-              <li><button type="button" className="nav-button"onClick={() => navigate('/myClubs')}>Mis Clubes</button></li>
+              <li><button type="button" className="nav-button" onClick={() => navigate('/home')}>Inicio</button></li>
+              <li><button type="button" className="nav-button active">Mis Clubes</button></li>
             </ul>
           </nav>
           <div className="user-profile">
@@ -220,23 +209,11 @@ function HomePage() {
       </header>
       
       <main className="home-main">
-        <section className="hero">
-          <div className="hero-content">
-            <h2 className="animated-text">Descubre Clubes de Lectura</h2>
-            <p>Únete a comunidades de lectores, comparte tus ideas y explora nuevas obras literarias</p>
-          </div>
-          <div className="hero-decoration">
-            <div className="floating-shape shape1"></div>
-            <div className="floating-shape shape2"></div>
-            <div className="floating-shape shape3"></div>
-          </div>
-        </section>
-        
         <section className="book-clubs animate-section">
           <div className="section-header">
             <div className="section-title">
-              <FaBookmark className="section-icon" />
-              <h3>Clubes de Lectura Disponibles</h3>
+              <FaUsers className="section-icon" />
+              <h3>Mis Clubes de Lectura</h3>
             </div>
             <div className="view-options">
               <span className="page-indicator">{currentPage} de {totalPages} páginas</span>
@@ -246,17 +223,23 @@ function HomePage() {
           {filteredClubs.length === 0 ? (
             <div className="no-results">
               <FaSearch className="no-results-icon" />
-              <h4>No se encontraron resultados</h4>
-              <p>No hay clubes disponibles en este momento</p>
+              <h4>No perteneces a ningún club todavía</h4>
+              <p>Explora los clubes disponibles y únete a alguno para comenzar</p>
+              <button 
+                className="reset-search"
+                onClick={() => navigate('/')}
+              >
+                Explorar Clubes
+              </button>
             </div>
           ) : (
-            <div className="book-clubs-grid">
+            <div className="book-clubs-grid my-clubs-grid">
               {currentClubs.map((club, index) => (
                 <div 
-                  className="club-card" 
+                  className="club-card my-club-card" 
                   key={club.id}
                   style={{animationDelay: `${index * 0.15}s`}}
-                  onClick={() => navigateToClub(club.id)} // Añadir el manejador de eventos aquí
+                  onClick={() => navigateToClub(club.id)}
                 >
                   <div className="club-header">
                     <div className="club-icon">
@@ -270,6 +253,20 @@ function HomePage() {
                       <span className="book-label">Libro actual:</span>
                       <span className="book-title">{club.book}</span>
                     </div>
+                    <div className="club-progress">
+                      <span className="progress-label">Tu progreso de lectura:</span>
+                      <div className="progress-bar">
+                        <div 
+                          className="progress-fill" 
+                          style={{width: `${club.progress}%`}}
+                        ></div>
+                      </div>
+                      <span className="progress-percentage">{club.progress}%</span>
+                    </div>
+                    <div className="next-meeting">
+                      <FaCalendarAlt className="meeting-icon" />
+                      <span>Próxima reunión: {club.nextMeeting}</span>
+                    </div>
                   </div>
                   <button 
                     className="join-button"
@@ -278,7 +275,7 @@ function HomePage() {
                       navigateToClub(club.id);
                     }}
                   >
-                    <span>Ver detalles</span>
+                    <span>Ir al club</span>
                     <span className="join-icon">→</span>
                   </button>
                 </div>
@@ -332,4 +329,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default MyClubsPage;
