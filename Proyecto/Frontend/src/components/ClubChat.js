@@ -25,6 +25,12 @@ function ClubChat() {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState('disconnected');
   const stompClientRef = useRef(null);
+  const [error, setError] = useState(null);
+  
+  // Utility function to safely get message ID
+  const getMessageId = (message) => {
+    return message.id || message._id;
+  };
   
   // Fetch club data
   useEffect(() => {
@@ -42,6 +48,7 @@ function ClubChat() {
         if (response.ok) {
           const data = await response.json();
           setClub(data);
+          console.log("Club data fetched successfully:", data);
           
           // Once we have club data, fetch messages
           fetchMessages();
@@ -49,9 +56,11 @@ function ClubChat() {
           navigate('/myclubs');
         } else {
           console.error('Error fetching club data:', response.statusText);
+          setError(`Error fetching club data: ${response.statusText}`);
         }
       } catch (error) {
         console.error('Error during fetch:', error);
+        setError(`Error fetching club: ${error.message}`);
       }
     };
 
@@ -78,10 +87,14 @@ function ClubChat() {
           client.subscribe(`/topic/chat/${clubId}`, (message) => {
             if (message.body) {
               const newMessage = JSON.parse(message.body);
+              console.log("Received WebSocket message:", newMessage);
               setMessages(prevMessages => {
-                if (!prevMessages.some(msg => msg.id === newMessage.id)) {
+                // Use the helper function to check for _id or id
+                if (!prevMessages.some(msg => getMessageId(msg) === getMessageId(newMessage))) {
+                  console.log("Adding new message to state:", newMessage);
                   return [...prevMessages, newMessage];
                 }
+                console.log("Message already exists in state, not adding:", newMessage);
                 return prevMessages;
               });
             }
@@ -120,7 +133,7 @@ function ClubChat() {
   const fetchMessages = async () => {
     const token = localStorage.getItem('sessionToken');
     try {
-      // This endpoint should be updated to match your actual backend
+      console.log(`Fetching messages for club ${clubId}...`);
       const response = await fetch(`http://localhost:8080/clubs/${clubId}/messages`, {
         method: 'GET',
         headers: {
@@ -131,16 +144,16 @@ function ClubChat() {
 
       if (response.ok) {
         const data = await response.json();
+        console.log("Messages fetched successfully:", data);
         setMessages(data);
       } else {
-        console.error('Error fetching messages:', response.statusText);
-        // If API is not ready, use sample data
-
+        const errorText = await response.text();
+        console.error('Error fetching messages:', response.status, errorText);
+        setError(`Error fetching messages: ${response.status} ${errorText}`);
       }
     } catch (error) {
       console.error('Error during fetch:', error);
-      // If API is not ready, use sample data
-
+      setError(`Error fetching messages: ${error.message}`);
     } finally {
       setIsLoading(false);
     }
@@ -169,6 +182,7 @@ function ClubChat() {
           body: JSON.stringify({
             sender: username,
             content: newMessage,
+            clubId: clubId,
             timestamp: new Date().toISOString()
           })
         });
@@ -271,9 +285,22 @@ function ClubChat() {
               </div>
             </div>
             
+            {error && (
+              <div className="error-message">
+                <p>{error}</p>
+                <button onClick={() => { setError(null); fetchMessages(); }}>Reintentar</button>
+              </div>
+            )}
+            
+            {connectionStatus !== 'connected' && (
+              <div className="connection-status">
+                <p>Estado de conexión: {connectionStatus === 'connecting' ? 'Conectando...' : 'Desconectado'}</p>
+              </div>
+            )}
+            
             {messages.length > 0 ? messages.map((message) => (
               <div 
-                key={message.id} 
+                key={getMessageId(message)} 
                 className={`message-container ${message.sender === localStorage.getItem('username') ? 'own-message' : ''}`}
               >
                 <div className="message-bubble">
