@@ -12,6 +12,6 @@ public class DemoController {
 
     @GetMapping
     public ResponseEntity<String> demo() {
-        return ResponseEntity.ok("halo world2");
+        return ResponseEntity.ok("halo world22");
     }
 }
