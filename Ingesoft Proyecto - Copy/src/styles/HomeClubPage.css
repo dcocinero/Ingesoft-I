@@ -1,0 +1,716 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Variables heredadas de tu CSS base */
+:root {
+  --primary-color: #8e44ad;
+  --primary-light: #9b59b6;
+  --primary-dark: #7d3c98;
+  --accent-color: #e74c3c;
+  --accent-light: #ff6b6b;
+  --bg-color: #f8f9fa;
+  --bg-light: #ffffff;
+  --text-color: #333;
+  --text-light: #666;
+  --text-lighter: #999;
+  --border-color: #e6e8ec;
+  --white: #ffffff;
+  --gray-light: #f5f5f5;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-strong: 0 10px 30px rgba(0, 0, 0, 0.15);
+  --transition: all 0.3s ease;
+  --border-radius: 12px;
+  --gradient-primary: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+}
+
+/* Estructura principal */
+.club-page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, 
+    rgba(248, 249, 250, 1) 0%,
+    rgba(237, 231, 246, 0.8) 100%);
+  background-size: 400% 400%;
+  position: relative;
+  animation: gradientShift 15s ease infinite alternate;
+  overflow: hidden;
+}
+
+/* Partículas flotantes */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  background-color: rgba(142, 68, 173, 0.15);
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 10px 2px rgba(142, 68, 173, 0.1);
+}
+
+.particle:nth-child(1) {
+  width: 80px;
+  height: 80px;
+  top: 10%;
+  left: 10%;
+  animation: particleFloat 25s linear infinite;
+  background: radial-gradient(circle, rgba(155, 89, 182, 0.3), rgba(142, 68, 173, 0.1));
+}
+
+.particle:nth-child(2) {
+  width: 100px;
+  height: 100px;
+  top: 20%;
+  left: 80%;
+  animation: particleFloat 32s linear 2s infinite reverse;
+  background: radial-gradient(circle, rgba(155, 89, 182, 0.25), rgba(142, 68, 173, 0.08));
+}
+
+.particle:nth-child(3) {
+  width: 60px;
+  height: 60px;
+  top: 60%;
+  left: 15%;
+  animation: particleFloat 18s linear 1s infinite;
+  background: radial-gradient(circle, rgba(155, 89, 182, 0.2), rgba(142, 68, 173, 0.05));
+}
+
+.particle:nth-child(4) {
+  width: 120px;
+  height: 120px;
+  top: 75%;
+  left: 75%;
+  animation: particleFloat 28s linear 3s infinite reverse;
+  background: radial-gradient(circle, rgba(155, 89, 182, 0.25), rgba(142, 68, 173, 0.08));
+}
+
+.particle:nth-child(5) {
+  width: 70px;
+  height: 70px;
+  top: 40%;
+  left: 40%;
+  animation: particleFloat 20s linear 4s infinite;
+  background: radial-gradient(circle, rgba(155, 89, 182, 0.2), rgba(142, 68, 173, 0.05));
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate(50px, -70px) rotate(120deg);
+  }
+  66% {
+    transform: translate(-40px, 40px) rotate(240deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg);
+  }
+}
+
+/* Header */
+.club-page-header {
+  background-color: var(--bg-light);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 0.8rem 0;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-icon {
+  color: var(--primary-color);
+  font-size: 1.8rem;
+  margin-right: 0.8rem;
+}
+
+.logo-container h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--gray-light);
+  border: none;
+  border-radius: 20px;
+  color: var(--text-color);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.back-button:hover {
+  background-color: var(--primary-light);
+  color: white;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 15px;
+  border-radius: 20px;
+  transition: var(--transition);
+  background-color: var(--gray-light);
+}
+
+.user-profile:hover {
+  background-color: #f0e6f7; /* Versión más clara del color primario */
+}
+
+.user-icon {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  margin-right: 8px;
+}
+
+.username {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--primary-dark);
+}
+
+/* Contenido principal */
+.club-page-main {
+  flex: 1;
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  z-index: 1;
+}
+
+/* Cabecera del club */
+.club-header {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.club-icon-container {
+  flex-shrink: 0;
+}
+
+.club-icon-large {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+  object-fit: cover;
+  background-color: var(--bg-light);
+  padding: 1rem;
+  border: 2px solid var(--primary-light);
+}
+
+.club-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.club-name {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 0.5rem;
+}
+
+.club-reading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.reading-label {
+  font-weight: 500;
+  color: var(--text-light);
+}
+
+.book-title {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.club-progress {
+  margin-top: 0.5rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background-color: var(--gray-light);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--gradient-primary);
+  border-radius: 10px;
+  transition: width 1s ease-out;
+}
+
+.progress-text {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+/* Descripción del club */
+.club-description-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+}
+
+.section-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.club-description {
+  line-height: 1.7;
+  color: var(--text-color);
+}
+
+/* Grid de contenido del club */
+.club-content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.club-meetings-section,
+.club-members-section {
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.section-icon {
+  color: var(--primary-color);
+  font-size: 1.2rem;
+}
+
+/* Listado de reuniones */
+.meetings-list {
+  list-style: none;
+}
+
+.meeting-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.meeting-item:last-child {
+  border-bottom: none;
+}
+
+.meeting-date {
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.meeting-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.meeting-time {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.meeting-topic {
+  color: var(--text-color);
+}
+
+.no-meetings {
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* Listado de miembros */
+.members-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.8rem;
+}
+
+.member-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--gray-light);
+  border-radius: 8px;
+  transition: var(--transition);
+}
+
+.member-item:hover {
+  background-color: #f0e6f7;
+  transform: translateY(-2px);
+}
+
+.member-icon {
+  color: var(--primary-color);
+  font-size: 1rem;
+}
+
+.member-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Botones de acción */
+.club-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.action-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  padding: 1rem;
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.button-icon {
+  font-size: 1.2rem;
+}
+
+.chat-button {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.chat-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.leave-button {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.leave-button:hover {
+  background-color: #d74133;
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Footer */
+.club-page-footer {
+  background-color: var(--primary-dark);
+  color: white;
+  padding: 2rem 1rem;
+  margin-top: auto;
+  z-index: 1;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.footer-section {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.footer-icon {
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.footer-section p {
+  max-width: 600px;
+  opacity: 0.8;
+}
+
+.footer-nav {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+/* 
+.footer-link {
+  color: white;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transition);
+  opacity: 0.8;
+}
+
+.footer-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+} */
+/* 
+.copyright {
+  font-size: 0.8rem;
+  opacity: 0.7;
+} */
+
+/* Animaciones para iconos */
+.animated-icon {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Pantalla de carga */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loader-icon {
+  font-size: 3rem;
+  color: var(--primary-color);
+  animation: spin 2s infinite linear;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Notificación toast
+.notification-toast {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-strong);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  z-index: 200;
+  animation: slideIn 0.5s ease-out, fadeOut 0.5s ease-in 4.5s forwards;
+  max-width: 350px;
+}
+
+.notification-icon {
+  font-size: 1.2rem;
+}
+
+.close-notification {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.3rem;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: var(--transition);
+  margin-left: auto;
+}
+
+.close-notification:hover {
+  opacity: 1;
+} */
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Pantalla de error */
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 2rem;
+  text-align: center;
+  gap: 1.5rem;
+}
+
+.error-container h2 {
+  color: var(--primary-color);
+  font-size: 2rem;
+}
+
+.error-container p {
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .club-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .club-actions {
+    flex-direction: column;
+  }
+  
+  .members-list {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .club-page-main {
+    padding: 1.5rem;
+  }
+  
+  .club-name {
+    font-size: 1.7rem;
+  }
+  
+  .member-item {
+    justify-content: center;
+  }
+  
+  /* .notification-toast {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    max-width: 90%;
+  } */
+}

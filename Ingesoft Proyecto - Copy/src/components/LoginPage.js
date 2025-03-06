@@ -130,7 +130,8 @@ function LoginPage() {
           </form>
           
           <p className="signup-text">
-            ¿Aún no tienes una cuenta? <button type="button" className="signup-link">Regístrate</button>
+          
+            ¿Aún no tienes una cuenta? <button type="button" className="signup-link"onClick={() => navigate('/register')}>Regístrate</button>
           </p>
         </div>
       </div>

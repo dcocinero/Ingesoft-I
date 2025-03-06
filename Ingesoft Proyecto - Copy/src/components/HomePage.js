@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importación de useNavigate
 import '../styles/HomePage.css';
 import { 
   FaBook, 
@@ -8,8 +9,6 @@ import {
   FaSearch,
   FaBell,
   FaBookmark,
-  // Eliminada la importación de FaUsers
-  // FaStar eliminado porque no se usa
 } from 'react-icons/fa';
 
 // Datos de muestra para los clubes de lectura con URLs de imágenes personalizadas
@@ -87,10 +86,16 @@ const sampleClubs = [
 ];
 
 function HomePage() {
+  const navigate = useNavigate(); // Hook para la navegación
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [showNotification, setShowNotification] = useState(false);
   const clubsPerPage = 3;
+
+  // Función para navegar a la página del club
+  const navigateToClub = (clubId) => {
+    navigate(`/clubs/${clubId}`);
+  };
 
   // Nuevo efecto para simular carga de datos
   useEffect(() => {
@@ -219,7 +224,6 @@ function HomePage() {
           <div className="hero-content">
             <h2 className="animated-text">Descubre Clubes de Lectura</h2>
             <p>Únete a comunidades de lectores, comparte tus ideas y explora nuevas obras literarias</p>
-            {/* Se ha eliminado el bloque hero-stats que contenía las estadísticas */}
           </div>
           <div className="hero-decoration">
             <div className="floating-shape shape1"></div>
@@ -244,7 +248,6 @@ function HomePage() {
               <FaSearch className="no-results-icon" />
               <h4>No se encontraron resultados</h4>
               <p>No hay clubes disponibles en este momento</p>
-              {/* Eliminamos el botón que usaba setSearchTerm */}
             </div>
           ) : (
             <div className="book-clubs-grid">
@@ -253,12 +256,12 @@ function HomePage() {
                   className="club-card" 
                   key={club.id}
                   style={{animationDelay: `${index * 0.15}s`}}
+                  onClick={() => navigateToClub(club.id)} // Añadir el manejador de eventos aquí
                 >
                   <div className="club-header">
                     <div className="club-icon">
                       <img src={club.iconImageUrl || "https://via.placeholder.com/80"} alt={club.name} />
                     </div>
-                    {/* Se ha eliminado el elemento members-count con el icono FaUsers */}
                   </div>
                   <div className="club-details">
                     <h4>{club.name}</h4>
@@ -268,9 +271,15 @@ function HomePage() {
                       <span className="book-title">{club.book}</span>
                     </div>
                   </div>
-                  <button className="join-button">
-                    <span>Unirse</span>
-                    <span className="join-icon">+</span>
+                  <button 
+                    className="join-button"
+                    onClick={(e) => {
+                      e.stopPropagation(); // Evita que el clic se propague a la tarjeta
+                      navigateToClub(club.id);
+                    }}
+                  >
+                    <span>Ver detalles</span>
+                    <span className="join-icon">→</span>
                   </button>
                 </div>
               ))}
